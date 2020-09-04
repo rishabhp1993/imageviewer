@@ -59,8 +59,9 @@ class Profile extends Component {
             mediaData: null,
             imageModalOpen: false,
             currentItem: null,
-            likeSet:new Set(),
             comments:{},
+            numberoflikes:0,
+            isLiked:false
         }
     }
 
@@ -115,8 +116,7 @@ class Profile extends Component {
         var result = this.state.mediaData.find(item => {
             return item.id === event.target.id
         })
-        console.log(result);
-        this.setState({ imageModalOpen: true, currentItem: result });
+        this.setState({ imageModalOpen: true, currentItem: result, numberoflikes:Math.floor(Math.random()*100), isLiked:Math.round(Math.random())?true:false });
     }
 
     handleCloseImageModal = () => {
@@ -146,27 +146,15 @@ class Profile extends Component {
     }
 
     likeClickHandler = (id) =>{
-      console.log('like id',id);
-      var foundItem = this.state.currentItem;
-
-      if (typeof foundItem !== undefined) {
-        if (!this.state.likeSet.has(id)) {
-          foundItem.likes.count++;
-          this.setState(({likeSet}) => ({
-            likeSet:new Set(likeSet.add(id))
-          }))
-        }else {
-          foundItem.likes.count--;
-          this.setState(({likeSet}) =>{
-            const newLike = new Set(likeSet);
-            newLike.delete(id);
-
-            return {
-              likeSet:newLike
-            };
-          });
+        if(this.state.isLiked===true)
+        {
+          this.setState({isLiked:false});
+          this.setState({numberoflikes:this.state.numberoflikes-1})
         }
-      }
+        else{
+          this.setState({isLiked:true});
+          this.setState({numberoflikes:this.state.numberoflikes+1})
+        }
     }
 
     onAddCommentClicked = (id) => {
@@ -204,6 +192,7 @@ class Profile extends Component {
         hashTags=this.state.currentItem.caption.match(/#[a-z]+/gi);
         console.log('state',this.state);
       }
+      var regexp = new RegExp('#([^\\s]*)','g');
         return(
             <div>
                 <Header
@@ -250,7 +239,6 @@ class Profile extends Component {
                         </Modal>
                     </span>
                 </div>
-
                 {this.state.mediaData != null &&
                 <GridList cellHeight={'auto'} cols={3} style={{padding: "40px"}}>
                 {this.state.mediaData.map(item => (
@@ -277,7 +265,7 @@ class Profile extends Component {
                       <div style={{width:'50%',padding:10}}>
                         <img style={{height:'100%',width:'100%'}}
                           src={this.state.currentItem.media_url}
-                          alt={this.state.currentItem.caption.text} />
+                          alt={this.state.currentItem.caption} />
                       </div>
 
                       <div style={{display:'flex', flexDirection:'column', width:'50%', padding:10}}>
@@ -293,7 +281,7 @@ class Profile extends Component {
                         <div style={{display:'flex', height:'100%', flexDirection:'column', justifyContent:'space-between'}}>
                           <div>
                             <Typography component="p">
-                              {this.state.currentItem.caption}
+                              {this.state.currentItem.caption.replace(regexp, '')}
                             </Typography>
                             <Typography style={{color:'#4dabf5'}} component="p" >
                               {hashTags.join(' ')}
@@ -314,11 +302,11 @@ class Profile extends Component {
                           <div>
                             <div className="row">
                               <IconButton aria-label="Add to favorites" onClick={this.likeClickHandler.bind(this,this.state.currentItem.id)}>
-                                {this.state.likeSet.has(this.state.currentItem.id) && <FavoriteIconFill style={{color:'#F44336'}}/>}
-                                {!this.state.likeSet.has(this.state.currentItem.id) && <FavoriteIconBorder/>}
+                                {this.state.isLiked===true && <FavoriteIconFill style={{color:'#F44336'}}/>}
+                                {this.state.isLiked===false && <FavoriteIconBorder/>}
                               </IconButton>
                               <Typography component="p">
-                                {7} Likes
+                                {this.state.numberoflikes} Likes
                               </Typography>
                             </div>
                             <div className="row">
