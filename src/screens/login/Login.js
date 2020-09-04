@@ -67,7 +67,6 @@ class Login extends Component {
     inputPasswordChangeHandler = (e) => {
         this.setState({ password: e.target.value })
     }
-
     render() {
         return (
             <div className="main-container">
