@@ -283,6 +283,7 @@ class HomeItem extends Component{
     )
   }
 
+  
   commentChangeHandler = (e) => {
     this.setState({
       comment:e.target.value,
