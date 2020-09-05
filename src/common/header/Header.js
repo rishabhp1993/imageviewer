@@ -12,7 +12,7 @@ import Popover from "@material-ui/core/Popover";
 import { Link } from "react-router-dom";
 import profilePic from "../../assets/profilepic.JPG";
 
-const styles = (theme) => ({
+const styles = (theme) => ({ 
   grow: {
     flexGrow: 1,
   },

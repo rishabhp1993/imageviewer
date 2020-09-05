@@ -219,7 +219,7 @@ class HomeItem extends Component {
     let captiontxt = item.caption.replace(regexp, "");
 
     return (
-      <div className="home-item-main-container">
+      <div className="home-item-main-container"> 
         <Card className={classes.card}>
           <CardHeader
             avatar={
