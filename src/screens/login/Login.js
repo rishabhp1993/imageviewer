@@ -38,6 +38,7 @@ class Login extends Component {
     };
   }
 
+  /* Method to handle loging click */
   loginClickHandler = () => {
     this.setState({ incorrectUsernamePassword: "dispNone" });
     this.state.username === ""
@@ -64,14 +65,17 @@ class Login extends Component {
     }
   };
 
+  /* Method to handle Home button click */
   navigateToHome = () => {
     this.props.history.push("/home");
   };
 
+  /* Method that is triggered when user name is changed. */
   inputUsernameChangeHandler = (e) => {
     this.setState({ username: e.target.value });
   };
 
+   /* Method that is triggered when password is changed. */
   inputPasswordChangeHandler = (e) => {
     this.setState({ password: e.target.value });
   };

@@ -71,6 +71,7 @@ class Home extends Component {
     };
   }
 
+   /* Calling getuserinfo and initialising search to blank */
   componentDidMount() {
     this.getUserInfo().then(() => {
       this.onSearchEntered("");
@@ -110,6 +111,7 @@ class Home extends Component {
     );
   }
 
+   /* On click of enter for searching */
   onSearchEntered = (value) => {
     console.log(this.state);
     let filteredData = this.state.userData;
@@ -125,6 +127,7 @@ class Home extends Component {
     //console.log(this.state)
   };
 
+   /* Handler for comment */
   addCommentClickHandler = (id) => {
     if (
       this.state.currentComment === "" ||
@@ -146,12 +149,14 @@ class Home extends Component {
     });
   };
 
+   /* Method to set new comment */
   commentChangeHandler = (e) => {
     this.setState({
       currentComment: e.target.value,
     });
   };
 
+   /* Method to get user information using API call */
   getUserInfo = () => {
     let url = `${constants.userInfoUrl}&access_token=${sessionStorage.getItem(
       "access-token"
@@ -172,11 +177,13 @@ class Home extends Component {
       });
   };
 
+   /* Method to handle logout click */
   logout = () => {
     sessionStorage.clear();
     this.props.history.replace("/");
   };
 
+   /* Handler to navigate to profile page */
   navigateToAccount = () => {
     this.props.history.push("/profile");
   };
@@ -191,6 +198,8 @@ class HomeItem extends Component {
       comment: "",
     };
   }
+
+   /* Method for handling like click */
   likeClickHandler = () => {
     if (this.state.isLiked === true) {
       this.setState({ isLiked: false });
@@ -215,6 +224,7 @@ class HomeItem extends Component {
     let time = dd + "/" + mm + "/" + yyyy + " " + HH + ":" + MM + ":" + ss;
     let tags = item.caption.match(/#[a-z]+/gi);
 
+     /* Regex for hashtags */
     var regexp = new RegExp("#([^\\s]*)", "g");
     let captiontxt = item.caption.replace(regexp, "");
 
@@ -299,6 +309,7 @@ class HomeItem extends Component {
     );
   }
 
+   /* Method for triggering hanleAccount method and handleClose method */
   commentChangeHandler = (e) => {
     this.setState({
       comment: e.target.value,
@@ -306,6 +317,7 @@ class HomeItem extends Component {
     this.props.commentChangeHandler(e);
   };
 
+   /* Method for adding new comment */
   onAddCommentClicked = (id) => {
     if (this.state.comment === "" || typeof this.state.comment === undefined) {
       return;

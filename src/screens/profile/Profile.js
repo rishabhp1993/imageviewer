@@ -64,11 +64,13 @@ class Profile extends Component {
     };
   }
 
+/* Callling Methods for getting user data */
   componentDidMount() {
     this.getUserInfo();
     this.getMediaData();
   }
 
+  /* Method for getting user data */
   getUserInfo = () => {
     let that = this;
     let url = `${constants.userInfoUrl}&access_token=${sessionStorage.getItem(
@@ -92,6 +94,7 @@ class Profile extends Component {
       });
   };
 
+  /* Method for getting Media data */
   getMediaData = () => {
     let that = this;
     let url = `${constants.userMediaUrl}&access_token=${sessionStorage.getItem(
@@ -113,14 +116,17 @@ class Profile extends Component {
       });
   };
 
+  /* Method for opening edit popup */
   handleOpenEditModal = () => {
     this.setState({ editOpen: true });
   };
 
+  /* Method for closing edit popup */
   handleCloseEditModal = () => {
     this.setState({ editOpen: false });
   };
 
+  /* Method for opening image popup */
   handleOpenImageModal = (event) => {
     var result = this.state.mediaData.find((item) => {
       return item.id === event.target.id;
@@ -133,16 +139,19 @@ class Profile extends Component {
     });
   };
 
+  /* Method for closing image popup */
   handleCloseImageModal = () => {
     this.setState({ imageModalOpen: false });
   };
 
+  /* Method for editing full name */
   inputFullNameChangeHandler = (e) => {
     this.setState({
       newFullName: e.target.value,
     });
   };
 
+  /* Method for updating full name */
   updateClickHandler = () => {
     if (this.state.newFullName === "") {
       this.setState({ fullNameRequired: "dispBlock" });
@@ -161,6 +170,7 @@ class Profile extends Component {
     this.handleCloseEditModal();
   };
 
+  /* Method for handling like button click */
   likeClickHandler = (id) => {
     if (this.state.isLiked === true) {
       this.setState({ isLiked: false });
@@ -171,6 +181,7 @@ class Profile extends Component {
     }
   };
 
+  /* Method for adding comment */
   onAddCommentClicked = (id) => {
     console.log("id", id);
     if (
@@ -180,6 +191,7 @@ class Profile extends Component {
       return;
     }
 
+    /* maintaining list of comments */
     let commentList = this.state.comments.hasOwnProperty(id)
       ? this.state.comments[id].concat(this.state.currentComment)
       : [].concat(this.state.currentComment);
@@ -193,12 +205,14 @@ class Profile extends Component {
     });
   };
 
+  /* Updating current comment on adding a new comment */
   commentChangeHandler = (e) => {
     this.setState({
       currentComment: e.target.value,
     });
   };
 
+  /* Clearing sessions on Logout click */
   logout = () => {
     sessionStorage.clear();
     this.props.history.replace("/");
@@ -213,6 +227,7 @@ class Profile extends Component {
     var regexp = new RegExp("#([^\\s]*)", "g");
     return (
       <div>
+        {/* Header*/}
         <Header
           screen={"Profile"}
           userProfileUrl={profilePic}
@@ -255,6 +270,7 @@ class Profile extends Component {
                 <Icon>edit_icon</Icon>
               </Button>
             </div>
+            {/* Modal Popup for editing Name */}
             <Modal
               aria-labelledby="edit-modal"
               aria-describedby="modal to edit user full name"
@@ -291,6 +307,7 @@ class Profile extends Component {
             </Modal>
           </span>
         </div>
+        {/* List of photos */}
         {this.state.mediaData != null && (
           <GridList cellHeight={"auto"} cols={3} style={{ padding: "40px" }}>
             {this.state.mediaData.map((item) => (
@@ -306,7 +323,7 @@ class Profile extends Component {
             ))}
           </GridList>
         )}
-
+        {/* Media details modal */}
         {this.state.currentItem != null && (
           <Modal
             aria-labelledby="image-modal"

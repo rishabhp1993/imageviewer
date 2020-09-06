@@ -154,11 +154,13 @@ class Header extends Component {
     });
   };
 
+   /* Method for triggering hanleAccount method and handleClose method */
   handleAccount = () => {
     this.props.handleAccount();
     this.handleClose();
   };
 
+   /* Method for handling logout*/
   handleLogout = () => {
     this.props.handleLogout();
     this.handleClose();
